@@ -1,0 +1,44 @@
+<div class="max-w-4xl mx-auto px-4 py-10">
+  <h1 class="text-3xl font-extrabold text-gray-900 mb-8">📋 Mes commandes</h1>
+  <% if @orders.empty? %>
+    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-20 text-center">
+      <div class="text-6xl mb-4">📭</div>
+      <p class="text-gray-500 mb-6">Vous n'avez pas encore de commandes.</p>
+      <%= link_to "Voir les produits", products_path, class: "px-6 py-3 bg-sky-600 text-white font-semibold rounded-xl hover:bg-sky-700 transition-colors" %>
+    </div>
+  <% else %>
+    <div class="space-y-5">
+      <% @orders.each do |order| %>
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <div class="flex items-start justify-between mb-4">
+            <div>
+              <p class="font-mono text-xs text-gray-500 mb-1">Réf: #<%= order.short_id %></p>
+              <p class="text-sm text-gray-500"><%= order.created_at.strftime("%d/%m/%Y à %H:%M") %></p>
+            </div>
+            <span class="badge badge-<%= order.status %>"><%= order.status %></span>
+          </div>
+          <div class="space-y-2 mb-4">
+            <% (order.items || []).each do |item| %>
+              <div class="flex items-center gap-3 text-sm">
+                <div class="w-10 h-10 rounded-lg overflow-hidden bg-gray-50 border border-gray-100 shrink-0">
+                  <% if item["image"].present? %>
+                    <img src="<%= item["image"] %>" class="w-full h-full object-cover">
+                  <% else %>
+                    <div class="w-full h-full flex items-center justify-center">💊</div>
+                  <% end %>
+                </div>
+                <span class="flex-1 text-gray-800 font-medium"><%= item["name_fr"] %></span>
+                <span class="text-gray-500">×<%= item["quantity"] %></span>
+                <span class="font-bold text-sky-600"><%= number_to_currency(item["unit_price"].to_f * item["quantity"].to_i, unit: "TND", format: "%n %u") %></span>
+              </div>
+            <% end %>
+          </div>
+          <div class="border-t border-gray-100 pt-3 flex justify-between text-sm font-bold">
+            <span class="text-gray-800">Total</span>
+            <span class="text-sky-600"><%= number_to_currency(order.total, unit: "TND", format: "%n %u") %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

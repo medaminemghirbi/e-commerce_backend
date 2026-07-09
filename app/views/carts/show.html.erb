@@ -1,0 +1,89 @@
+<div class="max-w-4xl mx-auto px-4 py-10">
+  <h1 class="text-3xl font-extrabold text-gray-900 mb-8">🛒 Mon Panier</h1>
+
+  <% if cart_items.empty? %>
+    <div class="bg-white rounded-3xl border border-gray-100 p-20 text-center shadow-sm">
+      <div class="text-6xl mb-4">🛒</div>
+      <p class="text-gray-500 text-lg mb-6">Votre panier est vide.</p>
+      <%= link_to "Voir les produits", products_path, class: "px-6 py-3 bg-sky-600 text-white font-semibold rounded-xl hover:bg-sky-700 transition-colors" %>
+    </div>
+  <% else %>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Items -->
+      <div class="lg:col-span-2 space-y-4">
+        <% cart_items.each do |item| %>
+          <div class="bg-white rounded-2xl border border-gray-100 p-4 flex gap-4 items-center shadow-sm">
+            <div class="w-20 h-20 rounded-xl overflow-hidden bg-gray-50 border border-gray-100 shrink-0">
+              <% if item["image"].present? %>
+                <img src="<%= item["image"] %>" class="w-full h-full object-cover">
+              <% else %>
+                <div class="w-full h-full flex items-center justify-center text-2xl">💊</div>
+              <% end %>
+            </div>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-gray-800 truncate"><%= item["name_fr"] %></h3>
+              <p class="text-sky-600 font-bold mt-1"><%= number_to_currency(item["unit_price"], unit: "TND", format: "%n %u") %></p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <%= button_to update_qty_cart_path(product_id: item["product_id"], qty: item["quantity"].to_i - 1), method: :patch,
+                  class: "w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center font-bold text-gray-600 hover:bg-gray-50 transition-colors" do %>
+                −
+              <% end %>
+              <span class="w-8 text-center font-semibold text-gray-800"><%= item["quantity"] %></span>
+              <%= button_to update_qty_cart_path(product_id: item["product_id"], qty: item["quantity"].to_i + 1), method: :patch,
+                  class: "w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center font-bold text-gray-600 hover:bg-gray-50 transition-colors" do %>
+                +
+              <% end %>
+            </div>
+            <div class="shrink-0 text-right w-24">
+              <p class="font-bold text-gray-800"><%= number_to_currency(item["unit_price"].to_f * item["quantity"].to_i, unit: "TND", format: "%n %u") %></p>
+            </div>
+            <%= button_to remove_cart_path(product_id: item["product_id"]), method: :delete,
+                class: "text-red-400 hover:text-red-600 ml-2 transition-colors" do %>
+              ✕
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Summary -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-20">
+          <h2 class="text-lg font-bold text-gray-800 mb-4">Récapitulatif</h2>
+          <div class="space-y-3 text-sm mb-6">
+            <div class="flex justify-between">
+              <span class="text-gray-500">Sous-total</span>
+              <span class="text-gray-800"><%= number_to_currency(cart_total, unit: "TND", format: "%n %u") %></span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-500">Livraison</span>
+              <% if cart_total >= 100 %>
+                <span class="text-green-600 font-semibold">Gratuite 🎉</span>
+              <% else %>
+                <span class="text-gray-800">8.00 TND</span>
+              <% end %>
+            </div>
+            <div class="pt-3 border-t border-gray-100 flex justify-between font-bold text-base">
+              <span class="text-gray-800">Total</span>
+              <span class="text-sky-600"><%= number_to_currency(cart_total + (cart_total >= 100 ? 0 : 8), unit: "TND", format: "%n %u") %></span>
+            </div>
+          </div>
+          <div class="rounded-xl p-3 mb-4 text-sm text-center bg-sky-50 text-sky-700 font-medium">
+            🚚 Paiement à la livraison uniquement
+          </div>
+          <%= link_to checkout_path, class: "block w-full py-3 bg-sky-600 text-white font-bold rounded-xl hover:bg-sky-700 transition-colors text-center" do %>
+            Passer la commande →
+          <% end %>
+          <% unless user_signed_in? %>
+            <p class="text-xs text-center mt-3 text-gray-500">
+              <%= link_to "Connectez-vous", new_user_session_path, class: "text-sky-600 font-semibold hover:underline" %> pour suivre vos commandes
+            </p>
+          <% end %>
+          <%= button_to clear_cart_path, method: :delete, class: "w-full mt-3 py-2 border border-gray-200 text-gray-500 text-sm rounded-xl hover:bg-gray-50 transition-colors" do %>
+            Vider le panier
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

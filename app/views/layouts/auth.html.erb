@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>MedicareInaya</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-sky-50 to-white flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+      <div class="text-center mb-8">
+        <%= link_to root_path, class: "inline-flex flex-col items-center gap-2" do %>
+          <div class="w-16 h-16 bg-sky-600 rounded-2xl flex items-center justify-center text-3xl">🏥</div>
+          <span class="font-extrabold text-sky-700 text-2xl">MedicareInaya</span>
+        <% end %>
+        <p class="text-gray-500 text-sm mt-2">Votre espace santé de confiance</p>
+      </div>
+      <div class="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+        <% flash.each do |type, msg| %>
+          <div class="mb-4 px-4 py-3 rounded-xl text-sm <%= type == 'notice' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200' %>">
+            <%= msg %>
+          </div>
+        <% end %>
+        <%= yield %>
+      </div>
+      <p class="text-center text-sm text-gray-500 mt-6">
+        <%= link_to "← Retour à l'accueil", root_path, class: "hover:text-sky-600 transition-colors" %>
+      </p>
+    </div>
+  </body>
+</html>

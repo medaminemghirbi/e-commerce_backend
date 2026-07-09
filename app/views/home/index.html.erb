@@ -1,0 +1,352 @@
+<%# ============================================================
+    HERO — dark navy gradient, identical to Angular landing page
+    ============================================================ %>
+<section class="relative overflow-hidden" style="background: linear-gradient(135deg, #0f172a 0%, #0c2340 50%, #0f3460 100%); min-height: 90vh;">
+  <!-- Decorative blobs -->
+  <div class="absolute top-20 left-10 w-72 h-72 rounded-full opacity-10" style="background: radial-gradient(circle, #0ea5e9, transparent);"></div>
+  <div class="absolute bottom-10 right-20 w-96 h-96 rounded-full opacity-10" style="background: radial-gradient(circle, #06b6d4, transparent);"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <!-- Left content -->
+    <div>
+      <!-- Badge pill -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/10 text-white/90 text-sm font-medium mb-8 backdrop-blur-sm">
+        <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+        Plateforme médicale nouvelle génération
+      </div>
+
+      <h1 class="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight mb-6">
+        Votre plateforme<br>
+        <span style="color: #38bdf8;">paramédicale de<br>référence</span>
+      </h1>
+
+      <p class="text-white/70 text-lg mb-8 max-w-lg leading-relaxed">
+        Découvrez notre gamme complète de produits médicaux et paramédicaux. Qualité certifiée, livraison rapide, support expert.
+      </p>
+
+      <!-- Search bar -->
+      <%= form_with url: products_path, method: :get, class: "flex gap-2 mb-8 max-w-lg" do |f| %>
+        <div class="flex-1 relative">
+          <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <%= f.search_field :q, placeholder: "Rechercher un produit médical...",
+              class: "w-full pl-11 pr-4 py-3.5 rounded-xl bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400 shadow-lg" %>
+        </div>
+        <%= f.submit "Rechercher", class: "px-6 py-3.5 bg-sky-500 text-white font-bold rounded-xl hover:bg-sky-400 transition-colors shadow-lg cursor-pointer text-sm" %>
+      <% end %>
+
+      <!-- CTA buttons -->
+      <div class="flex gap-3 mb-10 flex-wrap">
+        <%= link_to "Parcourir les produits", products_path,
+            class: "px-6 py-3.5 bg-sky-500 text-white font-bold rounded-xl hover:bg-sky-400 transition-all shadow-lg text-sm" %>
+        <%= link_to "Nous contacter", new_contact_request_path,
+            class: "px-6 py-3.5 font-bold rounded-xl text-white text-sm transition-all border border-white/20 hover:bg-white/10 backdrop-blur-sm" %>
+      </div>
+
+      <!-- Trust badges -->
+      <div class="flex flex-wrap gap-2">
+        <% [["✅", "Produits certifiés"], ["🚀", "Livraison 24-48h"], ["💳", "Paiement à la livraison"], ["🔒", "Achat sécurisé"]].each do |icon, label| %>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-white/80 border border-white/15 bg-white/5 backdrop-blur-sm">
+            <%= icon %> <%= label %>
+          </span>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Right visual card -->
+    <div class="relative flex justify-center">
+      <!-- Floating badge top-left -->
+      <div class="absolute -top-4 -left-4 z-10 bg-white rounded-2xl shadow-xl px-4 py-2.5 flex items-center gap-2">
+        <span class="text-2xl font-extrabold text-sky-600">500+</span>
+        <span class="text-sm text-gray-500 font-medium">Produits</span>
+      </div>
+
+      <!-- Main card -->
+      <div class="rounded-3xl p-8 max-w-sm w-full relative" style="background: rgba(255,255,255,0.07); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12);">
+        <!-- Disponible 24/7 badge -->
+        <div class="absolute top-4 right-4 flex items-center gap-1.5 bg-white rounded-full px-3 py-1.5 shadow-lg">
+          <span class="w-2 h-2 rounded-full bg-green-500"></span>
+          <span class="text-xs font-bold text-gray-800">Disponible 24/7</span>
+        </div>
+
+        <!-- Icon -->
+        <div class="w-20 h-20 rounded-3xl flex items-center justify-center mb-6" style="background: linear-gradient(135deg, #0ea5e9, #06b6d4);">
+          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+        </div>
+
+        <h3 class="text-xl font-extrabold text-white mb-1">Soins paramédicaux</h3>
+        <p class="text-white/50 text-sm mb-6">Qualité certifiée · Livraison rapide</p>
+
+        <%= link_to products_path, class: "flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-white text-sm transition-all", style: "background: linear-gradient(135deg, #0ea5e9, #06b6d4);" do %>
+          Explorer le catalogue →
+        <% end %>
+      </div>
+
+      <!-- Floating badge bottom-left -->
+      <div class="absolute -bottom-4 left-4 z-10 bg-white rounded-2xl shadow-xl px-4 py-2.5 flex items-center gap-2">
+        <span>🇹🇳</span>
+        <span class="text-sm font-bold text-gray-800">Toute la Tunisie</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# ============================================================
+    STATS STRIP
+    ============================================================ %>
+<section class="bg-white border-b border-gray-100 py-8">
+  <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6">
+    <% [
+      ["💊", "500+", "Produits"],
+      ["🏷️", "50+",  "Catégories"],
+      ["👥", "1000+","Clients"],
+      ["⏰", "24/7", "Support"]
+    ].each do |icon, stat, label| %>
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl shrink-0" style="background: #eff6ff;">
+          <%= icon %>
+        </div>
+        <div>
+          <p class="text-2xl font-extrabold text-sky-600 leading-none"><%= stat %></p>
+          <p class="text-sm text-gray-500 mt-0.5"><%= label %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<%# ============================================================
+    SERVICES SECTION
+    ============================================================ %>
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center mb-12">
+      <span class="inline-flex items-center gap-2 px-4 py-2 bg-sky-50 text-sky-600 rounded-full text-sm font-semibold mb-4">
+        🏢 Nos services
+      </span>
+      <h2 class="text-3xl font-extrabold text-gray-900 mb-3">
+        Un service médical de <span class="text-sky-600">confiance</span>
+      </h2>
+      <p class="text-gray-500 max-w-xl mx-auto">Produits certifiés, livraison rapide et support expert pour vos besoins paramédicaux.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <% [
+        { icon: "🏠", bg: "#fef2f2", label: "Livraison à domicile",
+          desc: "Recevez vos produits médicaux directement chez vous, partout en Tunisie.",
+          link: "En savoir plus" },
+        { icon: "⚡", bg: "#fefce8", label: "Intervention rapide",
+          desc: "Traitement et expédition le jour même ou le lendemain de votre commande.",
+          link: "Voir les délais" },
+        { icon: "🛡️", bg: "#f0fdf4", label: "Qualité garantie",
+          desc: "Tous nos produits sont certifiés et sélectionnés par des professionnels de santé.",
+          link: "Nos certifications" },
+        { icon: "💬", bg: "#faf5ff", label: "Support expert",
+          desc: "Notre équipe est disponible pour vous conseiller et répondre à vos questions.",
+          link: "Nous contacter" }
+      ].each do |s| %>
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-md transition-all group">
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5" style="background: <%= s[:bg] %>">
+            <%= s[:icon] %>
+          </div>
+          <h3 class="font-bold text-gray-900 mb-2"><%= s[:label] %></h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-4"><%= s[:desc] %></p>
+          <%= link_to new_contact_request_path, class: "text-sm font-semibold text-sky-600 hover:underline flex items-center gap-1 group-hover:gap-2 transition-all" do %>
+            <%= s[:link] %>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<%# ============================================================
+    CATEGORIES
+    ============================================================ %>
+<% if @categories.any? %>
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-start justify-between mb-10">
+      <div>
+        <span class="inline-flex items-center gap-2 px-4 py-2 bg-sky-50 text-sky-600 rounded-full text-sm font-semibold mb-4">
+          👋 Nos Catégories
+        </span>
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Nos Catégories</h2>
+        <p class="text-gray-500">Explorez notre large gamme de produits médicaux classés par catégorie</p>
+      </div>
+      <%= link_to products_path, class: "hidden md:flex items-center gap-2 px-5 py-2.5 border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors text-sm shrink-0 mt-2" do %>
+        Voir toutes les catégories →
+      <% end %>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <% @categories.each do |cat| %>
+        <%= link_to products_path(category: cat.id), class: "group bg-white rounded-2xl p-5 border border-gray-100 hover:border-sky-200 hover:shadow-md transition-all text-center flex flex-col items-center gap-3" do %>
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl" style="background: #eff6ff;">
+            <%= cat.icon.presence || "📦" %>
+          </div>
+          <p class="font-semibold text-gray-800 text-sm group-hover:text-sky-600 transition-colors"><%= cat.name_fr %></p>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</section>
+<% end %>
+
+<%# ============================================================
+    FEATURED PRODUCTS
+    ============================================================ %>
+<% if @featured.any? %>
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-start justify-between mb-10">
+      <div>
+        <span class="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-600 rounded-full text-sm font-semibold mb-4">
+          ⭐ Produits Vedettes
+        </span>
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Produits Vedettes</h2>
+        <p class="text-gray-500">Découvrez notre sélection de produits les plus populaires</p>
+      </div>
+      <%= link_to products_path, class: "hidden md:flex items-center gap-2 px-5 py-2.5 border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors text-sm shrink-0 mt-2" do %>
+        Voir tous les produits →
+      <% end %>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+      <% @featured.each do |product| %>
+        <%= render "products/card", product: product %>
+      <% end %>
+    </div>
+  </div>
+</section>
+<% end %>
+
+<%# ============================================================
+    HOW IT WORKS / DELIVERY
+    ============================================================ %>
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <!-- Left: visual -->
+    <div class="relative flex justify-center">
+      <div class="rounded-3xl overflow-hidden w-full max-w-md aspect-square relative flex items-center justify-center" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe);">
+        <div class="text-center">
+          <div class="text-8xl mb-4">🚚</div>
+          <p class="font-bold text-sky-700 text-xl">Livraison rapide</p>
+          <p class="text-sky-500 text-sm">partout en Tunisie</p>
+        </div>
+        <!-- Badge 1 -->
+        <div class="absolute top-6 right-6 bg-sky-600 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-lg flex items-center gap-2">
+          ⚡ Livraison 24-48h
+        </div>
+        <!-- Badge 2 -->
+        <div class="absolute bottom-6 left-6 bg-white text-gray-800 text-xs font-bold px-3 py-2 rounded-xl shadow-lg flex items-center gap-2">
+          🇹🇳 Toute la Tunisie
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: steps -->
+    <div>
+      <span class="inline-flex items-center gap-2 px-4 py-2 bg-sky-50 text-sky-600 rounded-full text-sm font-semibold mb-6">
+        🚚 Comment ça marche
+      </span>
+      <h2 class="text-3xl font-extrabold text-gray-900 mb-4">
+        Livraison partout<br>
+        <span class="text-sky-600">en Tunisie</span>
+      </h2>
+      <p class="text-gray-500 mb-8 leading-relaxed">Commandez depuis chez vous et recevez vos produits médicaux directement à votre porte.</p>
+
+      <div class="space-y-4">
+        <% [
+          ["Passez votre commande en ligne", "Sélectionnez vos produits et validez votre panier en quelques clics."],
+          ["Préparation & expédition rapide", "Votre colis est préparé et expédié le jour même ou le lendemain."],
+          ["Livraison 24-48h partout en Tunisie", "Service disponible dans tous les gouvernorats."],
+          ["Paiement à la livraison", "Payez en espèces à la réception — aucun risque, satisfaction garantie."]
+        ].each_with_index do |(title, desc), i| %>
+          <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-extrabold text-white shrink-0 mt-0.5" style="background: #0ea5e9;">
+              <%= i + 1 %>
+            </div>
+            <div>
+              <p class="font-bold text-gray-800 text-sm mb-1"><%= title %></p>
+              <p class="text-xs text-gray-500"><%= desc %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="mt-8">
+        <%= link_to checkout_path, class: "inline-flex items-center gap-2 px-7 py-3.5 text-white font-bold rounded-xl transition-all text-sm", style: "background: linear-gradient(135deg, #0ea5e9, #06b6d4);" do %>
+          Commander maintenant →
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# ============================================================
+    WHY CHOOSE US
+    ============================================================ %>
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center mb-12">
+      <span class="inline-flex items-center gap-2 px-4 py-2 bg-yellow-50 text-yellow-600 rounded-full text-sm font-semibold mb-4">
+        ✨ Pourquoi choisir MedicareInaya ?
+      </span>
+      <h2 class="text-3xl font-extrabold text-gray-900">Pourquoi choisir MedicareInaya ?</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      <% [
+        { bg: "#eff6ff", icon: "⚡", title: "Rapidité & Efficacité",
+          desc: "Navigation ultrarapide, recherche instantanée et accès facile à tout notre catalogue médical." },
+        { bg: "#f0fdf4", icon: "🛡️", title: "Sécurité & Confiance",
+          desc: "Produits certifiés, qualité garantie. Votre satisfaction est notre priorité absolue." },
+        { bg: "#faf5ff", icon: "🌐", title: "Multilingue",
+          desc: "Interface disponible en français, arabe et anglais pour servir tous nos clients." }
+      ].each do |w| %>
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-md transition-all relative">
+          <div class="absolute -top-3 -right-3 w-7 h-7 rounded-full bg-sky-600 flex items-center justify-center shadow-lg">
+            <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4" style="background: <%= w[:bg] %>">
+            <%= w[:icon] %>
+          </div>
+          <h3 class="font-bold text-gray-900 mb-2"><%= w[:title] %></h3>
+          <p class="text-sm text-gray-500 leading-relaxed"><%= w[:desc] %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<%# ============================================================
+    CTA SECTION
+    ============================================================ %>
+<section class="py-20 relative overflow-hidden" style="background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);">
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute top-0 left-1/4 w-64 h-64 rounded-full bg-white"></div>
+    <div class="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-white"></div>
+  </div>
+  <div class="relative max-w-3xl mx-auto px-4 text-center">
+    <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/15 text-white rounded-full text-sm font-semibold mb-6 border border-white/20">
+      💬 Contactez-nous
+    </span>
+    <h2 class="text-4xl font-extrabold text-white mb-4">Besoin d'information ?</h2>
+    <p class="text-white/80 text-lg mb-10 leading-relaxed">Contactez notre équipe d'experts pour toute demande de renseignement sur nos produits.</p>
+    <div class="flex gap-4 justify-center flex-wrap">
+      <%= link_to new_contact_request_path,
+          class: "px-8 py-4 bg-white font-bold rounded-xl transition-all text-sm hover:bg-gray-50",
+          style: "color: #0284c7;" do %>
+        Demander une information →
+      <% end %>
+      <%= link_to products_path,
+          class: "px-8 py-4 font-bold rounded-xl text-white border border-white/30 hover:bg-white/10 transition-all text-sm" do %>
+        Voir nos produits
+      <% end %>
+    </div>
+  </div>
+</section>

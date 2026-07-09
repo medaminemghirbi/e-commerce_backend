@@ -1,0 +1,23 @@
+<%= link_to product_path(product), class: "group bg-white rounded-2xl border border-gray-100 hover:border-sky-200 hover:shadow-lg transition-all overflow-hidden flex flex-col" do %>
+  <div class="aspect-square bg-gray-50 overflow-hidden">
+    <% if product.primary_image %>
+      <img src="<%= product.primary_image %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt="<%= product.name %>">
+    <% else %>
+      <div class="w-full h-full flex items-center justify-center text-4xl">💊</div>
+    <% end %>
+  </div>
+  <div class="p-4 flex flex-col flex-1">
+    <p class="font-semibold text-gray-800 text-sm mb-1 line-clamp-2 group-hover:text-sky-600 transition-colors"><%= product.name %></p>
+    <div class="mt-auto pt-3 flex items-center justify-between">
+      <% if product.has_promotion? %>
+        <span class="font-bold text-sky-600"><%= number_to_currency(product.current_price, unit: "TND", format: "%n %u") %></span>
+        <s class="text-xs text-gray-400"><%= number_to_currency(product.selling_price, unit: "TND", format: "%n %u") %></s>
+      <% else %>
+        <span class="font-bold text-sky-600"><%= number_to_currency(product.selling_price, unit: "TND", format: "%n %u") %></span>
+      <% end %>
+    </div>
+    <%= button_to add_cart_path(product_id: product.id), method: :post, class: "mt-3 w-full py-2 bg-sky-600 text-white text-sm font-semibold rounded-xl hover:bg-sky-700 transition-colors" do %>
+      🛒 Ajouter
+    <% end %>
+  </div>
+<% end %>

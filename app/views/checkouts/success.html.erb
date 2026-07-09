@@ -1,0 +1,39 @@
+<div class="max-w-lg mx-auto px-4 py-16 text-center">
+  <div class="text-7xl mb-6">✅</div>
+  <h1 class="text-3xl font-extrabold text-gray-900 mb-3">Commande confirmée !</h1>
+  <p class="text-gray-500 mb-8">Merci pour votre commande. Nous vous contacterons bientôt pour confirmer la livraison.</p>
+
+  <% if @order %>
+    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 mb-8 text-left">
+      <h2 class="font-bold text-gray-800 mb-4">Détails de la commande</h2>
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between">
+          <span class="text-gray-500">Référence</span>
+          <span class="font-mono font-bold text-gray-800">#<%= @order.short_id %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Total</span>
+          <span class="font-bold text-sky-600"><%= number_to_currency(@order.total, unit: "TND", format: "%n %u") %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Statut</span>
+          <span class="font-semibold text-amber-600">En attente</span>
+        </div>
+      </div>
+    </div>
+
+    <% unless user_signed_in? %>
+      <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-sm text-amber-800 mb-6 text-left">
+        ⚠️ <strong>Conservez cette référence !</strong> Sans compte, vous ne pourrez pas retrouver votre commande.<br>
+        Référence : <strong class="font-mono">#<%= @order.short_id %></strong>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="flex gap-3 justify-center flex-wrap">
+    <% if user_signed_in? %>
+      <%= link_to "Mes commandes", client_orders_path, class: "px-6 py-3 bg-sky-600 text-white font-semibold rounded-xl hover:bg-sky-700 transition-colors" %>
+    <% end %>
+    <%= link_to "Continuer mes achats", products_path, class: "px-6 py-3 border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors" %>
+  </div>
+</div>

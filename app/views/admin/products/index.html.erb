@@ -1,0 +1,64 @@
+<% content_for :page_title, "Produits" %>
+<div class="flex items-center justify-between mb-6">
+  <div class="flex items-center gap-3">
+    <%= form_with url: admin_products_path, method: :get, class: "flex gap-2" do |f| %>
+      <%= f.search_field :q, value: params[:q], placeholder: "Rechercher...",
+          class: "px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm" %>
+      <%= f.submit "🔍", class: "px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200 cursor-pointer text-sm" %>
+    <% end %>
+  </div>
+  <%= link_to new_admin_product_path, class: "flex items-center gap-2 px-4 py-2 bg-sky-600 text-white font-semibold rounded-xl hover:bg-sky-700 transition-colors text-sm" do %>
+    + Nouveau produit
+  <% end %>
+</div>
+
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
+      <tr>
+        <th class="px-6 py-3 text-left">Produit</th>
+        <th class="px-6 py-3 text-left">Catégorie</th>
+        <th class="px-6 py-3 text-left">Prix</th>
+        <th class="px-6 py-3 text-left">Stock</th>
+        <th class="px-6 py-3 text-left">Statut</th>
+        <th class="px-6 py-3 text-left">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-50">
+      <% @products.each do |product| %>
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-6 py-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                <% if product.primary_image %>
+                  <img src="<%= product.primary_image %>" class="w-full h-full object-cover">
+                <% else %>
+                  <div class="w-full h-full flex items-center justify-center text-lg">💊</div>
+                <% end %>
+              </div>
+              <div>
+                <p class="font-semibold text-gray-800 max-w-xs truncate"><%= product.name_fr %></p>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-gray-500"><%= product.category&.name_fr || "—" %></td>
+          <td class="px-6 py-4 font-bold text-sky-600"><%= number_to_currency(product.selling_price, unit: "TND", format: "%n %u") %></td>
+          <td class="px-6 py-4 text-gray-600"><%= product.stock_quantity %></td>
+          <td class="px-6 py-4">
+            <span class="px-2 py-1 rounded-lg text-xs font-semibold <%= product.status == 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' %>">
+              <%= product.status %>
+            </span>
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex items-center gap-2">
+              <%= link_to edit_admin_product_path(product), class: "px-3 py-1.5 text-xs font-semibold bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors" do %>✏️ Modifier<% end %>
+              <%= button_to admin_product_path(product), method: :delete,
+                  data: { turbo_confirm: "Supprimer ce produit ?" },
+                  class: "px-3 py-1.5 text-xs font-semibold bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors" do %>🗑️ Supprimer<% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

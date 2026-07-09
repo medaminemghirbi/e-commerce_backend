@@ -1,0 +1,42 @@
+<% content_for :page_title, "Commandes" %>
+<div class="flex items-center gap-3 mb-6 flex-wrap">
+  <% ["", "pending", "confirmed", "shipped", "delivered", "cancelled"].each do |s| %>
+    <%= link_to admin_orders_path(status: s), class: "px-4 py-2 rounded-xl text-sm font-semibold transition-colors #{params[:status].to_s == s ? 'bg-sky-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}" do %>
+      <%= s.blank? ? "Toutes" : s.capitalize %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
+      <tr>
+        <th class="px-6 py-3 text-left">Réf</th>
+        <th class="px-6 py-3 text-left">Client</th>
+        <th class="px-6 py-3 text-left">Articles</th>
+        <th class="px-6 py-3 text-left">Total</th>
+        <th class="px-6 py-3 text-left">Statut</th>
+        <th class="px-6 py-3 text-left">Date</th>
+        <th class="px-6 py-3 text-left">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-50">
+      <% @orders.each do |order| %>
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-6 py-4 font-mono text-xs text-gray-500 font-bold">#<%= order.short_id %></td>
+          <td class="px-6 py-4">
+            <p class="font-medium text-gray-800"><%= order.delivery_address&.dig("full_name") || order.user_email %></p>
+            <p class="text-xs text-gray-400"><%= order.user_email %></p>
+          </td>
+          <td class="px-6 py-4 text-gray-500"><%= order.items&.length || 0 %> article(s)</td>
+          <td class="px-6 py-4 font-bold text-sky-600"><%= number_to_currency(order.total, unit: "TND", format: "%n %u") %></td>
+          <td class="px-6 py-4"><span class="badge badge-<%= order.status %>"><%= order.status %></span></td>
+          <td class="px-6 py-4 text-gray-500"><%= order.created_at.strftime("%d/%m/%Y") %></td>
+          <td class="px-6 py-4">
+            <%= link_to admin_order_path(order), class: "px-3 py-1.5 text-xs font-semibold bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200" do %>👁️ Voir<% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

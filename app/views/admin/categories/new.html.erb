@@ -1,0 +1,33 @@
+<% content_for :page_title, "Nouvelle catégorie" %>
+<%= link_to "← Catégories", admin_categories_path, class: "text-sm text-gray-500 hover:text-sky-600 mb-6 inline-block" %>
+<div class="max-w-lg bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+  <%= form_with model: [:admin, @category], class: "space-y-4" do |f| %>
+    <% if @category.errors.any? %>
+      <div class="p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700"><%= @category.errors.full_messages.join(", ") %></div>
+    <% end %>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Nom (FR) *</label>
+      <%= f.text_field :name_fr, required: true, class: "w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm" %>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Nom (AR)</label>
+      <%= f.text_field :name_ar, dir: "rtl", class: "w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm" %>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Nom (EN)</label>
+      <%= f.text_field :name_en, class: "w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm" %>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Icône (emoji)</label>
+      <%= f.text_field :icon, placeholder: "💊", class: "w-24 px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm" %>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+      <%= f.text_area :description, rows: 3, class: "w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm resize-none" %>
+    </div>
+    <div class="flex gap-3 pt-2">
+      <%= f.submit "Créer", class: "px-6 py-2.5 bg-sky-600 text-white font-bold rounded-xl hover:bg-sky-700 transition-colors cursor-pointer" %>
+      <%= link_to "Annuler", admin_categories_path, class: "px-6 py-2.5 border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50" %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,45 @@
+<div class="max-w-7xl mx-auto px-4 py-10">
+  <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+    <h1 class="text-3xl font-extrabold text-gray-900">Nos Produits</h1>
+    <%= form_with url: products_path, method: :get, class: "flex gap-2" do |f| %>
+      <%= f.search_field :q, value: params[:q], placeholder: "Rechercher...",
+          class: "px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm w-64" %>
+      <%= f.submit "🔍", class: "px-4 py-2 bg-sky-600 text-white rounded-xl hover:bg-sky-700 cursor-pointer text-sm" %>
+    <% end %>
+  </div>
+
+  <div class="flex gap-8">
+    <!-- Sidebar categories -->
+    <aside class="w-56 shrink-0 hidden lg:block">
+      <div class="bg-white rounded-2xl border border-gray-100 p-4 sticky top-20">
+        <h3 class="font-bold text-gray-800 mb-3 text-sm uppercase tracking-widest">Catégories</h3>
+        <%= link_to "Toutes", products_path, class: "block px-3 py-2 rounded-xl text-sm font-medium mb-1 transition-colors #{params[:category].blank? ? 'bg-sky-600 text-white' : 'text-gray-600 hover:bg-gray-50'}" %>
+        <% @categories.each do |cat| %>
+          <%= link_to products_path(category: cat.id), class: "block px-3 py-2 rounded-xl text-sm font-medium mb-1 transition-colors #{params[:category] == cat.id.to_s ? 'bg-sky-600 text-white' : 'text-gray-600 hover:bg-gray-50'}" do %>
+            <%= cat.icon.presence || "📦" %> <%= cat.name_fr %>
+          <% end %>
+        <% end %>
+      </div>
+    </aside>
+
+    <!-- Products grid -->
+    <div class="flex-1">
+      <% if @products.any? %>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <% @products.each do |product| %>
+            <%= render "card", product: product %>
+          <% end %>
+        </div>
+        <div class="mt-8 flex justify-center">
+          <%== pagy_nav(@pagy) if defined?(@pagy) && @pagy.pages > 1 rescue nil %>
+        </div>
+      <% else %>
+        <div class="text-center py-20">
+          <div class="text-6xl mb-4">🔍</div>
+          <p class="text-gray-500 text-lg">Aucun produit trouvé.</p>
+          <%= link_to "Voir tous les produits", products_path, class: "mt-4 inline-block px-6 py-3 bg-sky-600 text-white font-semibold rounded-xl hover:bg-sky-700 transition-colors" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<% content_for :page_title, "Catégories" %>
+<div class="flex justify-end mb-6">
+  <%= link_to new_admin_category_path, class: "px-4 py-2 bg-sky-600 text-white font-semibold rounded-xl hover:bg-sky-700 transition-colors text-sm" do %>
+    + Nouvelle catégorie
+  <% end %>
+</div>
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
+      <tr>
+        <th class="px-6 py-3 text-left">Icône</th>
+        <th class="px-6 py-3 text-left">Nom (FR)</th>
+        <th class="px-6 py-3 text-left">Nom (AR)</th>
+        <th class="px-6 py-3 text-left">Produits</th>
+        <th class="px-6 py-3 text-left">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-50">
+      <% @categories.each do |cat| %>
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-6 py-4 text-2xl"><%= cat.icon.presence || "📦" %></td>
+          <td class="px-6 py-4 font-semibold text-gray-800"><%= cat.name_fr %></td>
+          <td class="px-6 py-4 text-gray-500" dir="rtl"><%= cat.name_ar %></td>
+          <td class="px-6 py-4 text-gray-500"><%= cat.products.count %></td>
+          <td class="px-6 py-4">
+            <div class="flex gap-2">
+              <%= link_to edit_admin_category_path(cat), class: "px-3 py-1.5 text-xs font-semibold bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200" do %>✏️ Modifier<% end %>
+              <%= button_to admin_category_path(cat), method: :delete,
+                  data: { turbo_confirm: "Supprimer cette catégorie ?" },
+                  class: "px-3 py-1.5 text-xs font-semibold bg-red-100 text-red-600 rounded-lg hover:bg-red-200" do %>🗑️<% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,48 @@
+<% content_for :page_title, "Dashboard" %>
+
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+  <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+    <p class="text-3xl font-extrabold text-sky-600"><%= @products_count %></p>
+    <p class="text-sm text-gray-500 mt-1">📦 Produits</p>
+  </div>
+  <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+    <p class="text-3xl font-extrabold text-amber-500"><%= @pending_count %></p>
+    <p class="text-sm text-gray-500 mt-1">⏳ En attente</p>
+  </div>
+  <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+    <p class="text-3xl font-extrabold text-gray-800"><%= @orders_count %></p>
+    <p class="text-sm text-gray-500 mt-1">🛒 Commandes</p>
+  </div>
+  <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+    <p class="text-3xl font-extrabold text-green-600"><%= number_to_currency(@revenue, unit: "TND", format: "%n %u") %></p>
+    <p class="text-sm text-gray-500 mt-1">💰 Revenus</p>
+  </div>
+</div>
+
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+  <div class="px-6 py-4 border-b border-gray-100">
+    <h2 class="font-bold text-gray-800">Dernières commandes</h2>
+  </div>
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
+      <tr>
+        <th class="px-6 py-3 text-left">Réf</th>
+        <th class="px-6 py-3 text-left">Client</th>
+        <th class="px-6 py-3 text-left">Total</th>
+        <th class="px-6 py-3 text-left">Statut</th>
+        <th class="px-6 py-3 text-left">Date</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-50">
+      <% @recent_orders.each do |order| %>
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-6 py-4 font-mono text-xs text-gray-500">#<%= order.short_id %></td>
+          <td class="px-6 py-4 font-medium text-gray-800"><%= order.user_email %></td>
+          <td class="px-6 py-4 font-bold text-sky-600"><%= number_to_currency(order.total, unit: "TND", format: "%n %u") %></td>
+          <td class="px-6 py-4"><span class="px-2 py-1 rounded-lg text-xs font-semibold bg-amber-100 text-amber-700"><%= order.status %></span></td>
+          <td class="px-6 py-4 text-gray-500"><%= order.created_at.strftime("%d/%m/%Y") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

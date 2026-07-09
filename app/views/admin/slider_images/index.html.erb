@@ -1,0 +1,31 @@
+<% content_for :page_title, "Slider" %>
+<div class="flex justify-end mb-6">
+  <%= link_to new_admin_slider_image_path, class: "px-4 py-2 bg-sky-600 text-white font-semibold rounded-xl hover:bg-sky-700 transition-colors text-sm" do %>
+    + Ajouter une image
+  <% end %>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+  <% @slides.each do |slide| %>
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div class="aspect-video bg-gray-100 overflow-hidden">
+        <img src="<%= slide.image_url %>" class="w-full h-full object-cover" onerror="this.style.display='none'">
+      </div>
+      <div class="p-4">
+        <div class="flex items-center justify-between mb-2">
+          <p class="font-semibold text-gray-800 truncate"><%= slide.title.presence || "Sans titre" %></p>
+          <%= button_to toggle_active_admin_slider_image_path(slide), method: :patch,
+              class: "text-xs px-2 py-1 rounded-lg font-semibold transition-colors #{slide.active? ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}" do %>
+            <%= slide.active? ? "✅ Actif" : "⏸️ Inactif" %>
+          <% end %>
+        </div>
+        <p class="text-xs text-gray-400 mb-3 truncate"><%= slide.image_url %></p>
+        <div class="flex gap-2">
+          <%= link_to edit_admin_slider_image_path(slide), class: "flex-1 py-1.5 text-xs font-semibold bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-center" do %>✏️ Modifier<% end %>
+          <%= button_to admin_slider_image_path(slide), method: :delete,
+              data: { turbo_confirm: "Supprimer ?" },
+              class: "flex-1 py-1.5 text-xs font-semibold bg-red-100 text-red-600 rounded-lg hover:bg-red-200" do %>🗑️<% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

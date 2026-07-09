@@ -1,0 +1,79 @@
+<% content_for :page_title, "Commande ##{@order.short_id}" %>
+<%= link_to "← Commandes", admin_orders_path, class: "text-sm text-gray-500 hover:text-sky-600 mb-6 inline-block" %>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <div class="lg:col-span-2 space-y-6">
+    <!-- Items -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+      <h2 class="font-bold text-gray-800 mb-4">📦 Articles commandés</h2>
+      <div class="space-y-3">
+        <% (@order.items || []).each do |item| %>
+          <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+            <div class="w-12 h-12 rounded-xl overflow-hidden bg-white border border-gray-100 shrink-0">
+              <% if item["image"].present? %>
+                <img src="<%= item["image"] %>" class="w-full h-full object-cover">
+              <% else %>
+                <div class="w-full h-full flex items-center justify-center text-xl">💊</div>
+              <% end %>
+            </div>
+            <div class="flex-1 min-w-0">
+              <% product_id = item["product_id"] || item["productId"] %>
+              <% if product_id.present? %>
+                <%= link_to product_path(product_id), target: "_blank", class: "font-semibold text-gray-800 hover:text-sky-600 hover:underline block truncate" do %>
+                  <%= item["name_fr"] %>
+                <% end %>
+              <% else %>
+                <p class="font-semibold text-gray-800 truncate"><%= item["name_fr"] %></p>
+              <% end %>
+              <p class="text-sm text-gray-500"><%= number_to_currency(item["unit_price"], unit: "TND", format: "%n %u") %> × <%= item["quantity"] %></p>
+            </div>
+            <p class="font-bold text-sky-600 shrink-0"><%= number_to_currency(item["unit_price"].to_f * item["quantity"].to_i, unit: "TND", format: "%n %u") %></p>
+          </div>
+        <% end %>
+      </div>
+      <div class="border-t border-gray-100 mt-4 pt-4 space-y-2 text-sm">
+        <div class="flex justify-between text-gray-500"><span>Sous-total</span><span><%= number_to_currency(@order.subtotal, unit: "TND", format: "%n %u") %></span></div>
+        <div class="flex justify-between text-gray-500"><span>Livraison</span><span><%= @order.delivery_fee == 0 ? "Gratuite 🎉" : number_to_currency(@order.delivery_fee, unit: "TND", format: "%n %u") %></span></div>
+        <div class="flex justify-between font-bold text-base pt-2 border-t border-gray-100"><span class="text-gray-800">Total</span><span class="text-sky-600"><%= number_to_currency(@order.total, unit: "TND", format: "%n %u") %></span></div>
+      </div>
+    </div>
+
+    <!-- Delivery address -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+      <h2 class="font-bold text-gray-800 mb-4">📍 Adresse de livraison</h2>
+      <% addr = @order.delivery_address || {} %>
+      <div class="space-y-2 text-sm">
+        <p class="font-semibold text-gray-800"><%= addr["full_name"] %></p>
+        <p class="text-gray-500">📞 <%= addr["phone"] %></p>
+        <p class="text-gray-500">🏠 <%= addr["address"] %></p>
+        <p class="font-medium text-gray-700"><%= addr["city"] %>, <%= addr["wilaya"] %></p>
+        <% if addr["email"].present? %><p class="text-gray-500">✉️ <%= addr["email"] %></p><% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status update -->
+  <div class="space-y-6">
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+      <h2 class="font-bold text-gray-800 mb-4">📡 Changer le statut</h2>
+      <div class="space-y-2">
+        <% Order::STATUSES.each do |status| %>
+          <%= button_to update_status_admin_order_path(@order), method: :patch, params: { status: status },
+              class: "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left #{@order.status == status ? 'bg-sky-600 text-white' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'}" do %>
+            <%= status.capitalize %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+      <h2 class="font-bold text-gray-800 mb-3">👤 Client</h2>
+      <p class="text-sm text-gray-600"><%= @order.user_email %></p>
+      <p class="text-xs text-gray-400 mt-1"><%= @order.created_at.strftime("%d/%m/%Y à %H:%M") %></p>
+    </div>
+    <%= button_to admin_order_path(@order), method: :delete,
+        data: { turbo_confirm: "Supprimer cette commande ?" },
+        class: "w-full py-2 bg-red-50 text-red-600 text-sm font-semibold rounded-xl hover:bg-red-100 transition-colors" do %>
+      🗑️ Supprimer la commande
+    <% end %>
+  </div>
+</div>

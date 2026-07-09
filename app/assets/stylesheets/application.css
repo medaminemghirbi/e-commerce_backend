@@ -1,0 +1,31 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+
+:root {
+  --primary: #0284c7;
+  --primary-dark: #0369a1;
+  --accent: #06b6d4;
+  --bg-card: #ffffff;
+  --bg-secondary: #f8fafc;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+}
+
+.badge { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold; }
+.badge-pending   { @apply bg-amber-100 text-amber-700; }
+.badge-confirmed { @apply bg-blue-100 text-blue-700; }
+.badge-shipped   { @apply bg-purple-100 text-purple-700; }
+.badge-delivered { @apply bg-green-100 text-green-700; }
+.badge-cancelled { @apply bg-red-100 text-red-700; }

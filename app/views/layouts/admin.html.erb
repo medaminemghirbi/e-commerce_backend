@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>Admin · MedicareInaya</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-gray-50 min-h-screen">
+    <div class="flex min-h-screen">
+
+      <!-- Sidebar -->
+      <aside class="w-64 bg-gray-900 text-white flex flex-col shrink-0">
+        <div class="px-6 py-5 border-b border-gray-800">
+          <%= link_to admin_root_path, class: "flex items-center gap-2 font-extrabold text-sky-400 text-lg" do %>
+            🏥 Admin Panel
+          <% end %>
+          <p class="text-xs text-gray-500 mt-1"><%= current_user.email %></p>
+        </div>
+
+        <nav class="flex-1 px-4 py-6 space-y-1">
+          <%= admin_nav_link "📊", "Dashboard",    admin_root_path %>
+          <%= admin_nav_link "📦", "Produits",     admin_products_path %>
+          <%= admin_nav_link "🗂️", "Catégories",   admin_categories_path %>
+          <%= admin_nav_link "🛒", "Commandes",    admin_orders_path %>
+          <%= admin_nav_link "🖼️", "Slider",       admin_slider_images_path %>
+          <%= admin_nav_link "⚙️", "Paramètres",   admin_settings_path %>
+        </nav>
+
+        <div class="px-4 py-4 border-t border-gray-800">
+          <%= link_to root_path, class: "flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors" do %>
+            ← Site public
+          <% end %>
+          <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "flex items-center gap-2 text-sm text-gray-400 hover:text-red-400 transition-colors mt-2" do %>
+            🚪 Déconnexion
+          <% end %>
+        </div>
+      </aside>
+
+      <!-- Content -->
+      <div class="flex-1 flex flex-col min-w-0">
+        <header class="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
+          <h1 class="text-xl font-bold text-gray-800"><%= content_for(:page_title) || "Dashboard" %></h1>
+          <div class="flex items-center gap-3 text-sm text-gray-500">
+            👤 <%= current_user.full_name.presence || current_user.email %>
+          </div>
+        </header>
+
+        <% flash.each do |type, msg| %>
+          <div class="mx-8 mt-4 px-4 py-3 rounded-xl text-sm font-medium <%= type == 'notice' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200' %>">
+            <%= msg %>
+          </div>
+        <% end %>
+
+        <main class="flex-1 p-8">
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

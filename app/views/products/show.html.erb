@@ -1,0 +1,88 @@
+<div class="max-w-6xl mx-auto px-4 py-10">
+  <!-- Breadcrumb -->
+  <nav class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+    <%= link_to "Accueil", root_path, class: "hover:text-sky-600" %>
+    <span>/</span>
+    <%= link_to "Produits", products_path, class: "hover:text-sky-600" %>
+    <span>/</span>
+    <span class="text-gray-800 font-medium"><%= @product.name_fr %></span>
+  </nav>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+    <!-- Images -->
+    <div>
+      <% if @product.images&.any? %>
+        <div class="aspect-square rounded-3xl overflow-hidden border border-gray-100 bg-gray-50 mb-4">
+          <img src="<%= @product.images.first %>" class="w-full h-full object-cover" alt="<%= @product.name_fr %>" id="main-img">
+        </div>
+        <% if @product.images.length > 1 %>
+          <div class="grid grid-cols-4 gap-2">
+            <% @product.images.each do |img| %>
+              <div class="aspect-square rounded-xl overflow-hidden border border-gray-100 cursor-pointer hover:border-sky-400 transition-colors"
+                   onclick="document.getElementById('main-img').src='<%= img %>'">
+                <img src="<%= img %>" class="w-full h-full object-cover">
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="aspect-square rounded-3xl bg-gradient-to-br from-sky-50 to-blue-100 flex items-center justify-center text-8xl border border-gray-100">
+          💊
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Info -->
+    <div>
+      <% if @product.category %>
+        <span class="inline-flex items-center gap-1 px-3 py-1 bg-sky-100 text-sky-700 rounded-full text-xs font-semibold mb-4">
+          <%= @product.category.icon.presence || "📦" %> <%= @product.category.name_fr %>
+        </span>
+      <% end %>
+      <h1 class="text-3xl font-extrabold text-gray-900 mb-4"><%= @product.name_fr %></h1>
+      <div class="flex items-baseline gap-3 mb-6">
+        <span class="text-3xl font-extrabold text-sky-600"><%= number_to_currency(@product.current_price, unit: "TND", format: "%n %u") %></span>
+        <% if @product.has_promotion? %>
+          <s class="text-lg text-gray-400"><%= number_to_currency(@product.selling_price, unit: "TND", format: "%n %u") %></s>
+          <span class="px-2 py-1 bg-red-100 text-red-600 text-xs font-bold rounded-lg">-<%= @product.promotion_discount %>%</span>
+        <% end %>
+      </div>
+
+      <% if @product.description_fr.present? %>
+        <div class="prose prose-sm text-gray-600 mb-8">
+          <p><%= @product.description_fr %></p>
+        </div>
+      <% end %>
+
+      <div class="flex gap-3 mb-8">
+        <%= button_to add_cart_path(product_id: @product.id), method: :post,
+            class: "flex-1 py-4 bg-sky-600 text-white font-bold rounded-2xl hover:bg-sky-700 transition-colors text-lg" do %>
+          🛒 Ajouter au panier
+        <% end %>
+      </div>
+
+      <!-- Stock -->
+      <div class="flex items-center gap-2 text-sm">
+        <% if @product.stock_quantity > 0 %>
+          <span class="w-2 h-2 rounded-full bg-green-500"></span>
+          <span class="text-green-700 font-medium">En stock (<%= @product.stock_quantity %> disponibles)</span>
+        <% else %>
+          <span class="w-2 h-2 rounded-full bg-red-400"></span>
+          <span class="text-red-500 font-medium">Rupture de stock</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related products -->
+  <% if @related.any? %>
+    <section>
+      <h2 class="text-2xl font-extrabold text-gray-900 mb-6">Produits similaires</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+        <% @related.each do |product| %>
+          <%= render "card", product: product %>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+</div>
